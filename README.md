@@ -1,0 +1,1 @@
+This is the Final Project of the foundations section of The Odin Project. I hope to challenge myself and my knowledge of HTML, CSS and JS. I hope to used the knowledge I have accumulated up until this point. 
