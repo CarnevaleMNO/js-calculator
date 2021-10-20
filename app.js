@@ -41,11 +41,11 @@ for (let num of nums) {
   });
 }
 clearBtn.addEventListener("click", function () {
-    number1 = 0;
-    number2 = 0;
-    total = 0;
-    topDisplay.innerHTML = "";
-    display.innerHTML = "";
+  number1 = 0;
+  number2 = 0;
+  total = 0;
+  topDisplay.innerHTML = "";
+  display.innerHTML = "";
 });
 plusBtn.addEventListener("click", function () {
   if (display.innerHTML) {
@@ -56,33 +56,53 @@ plusBtn.addEventListener("click", function () {
   }
 });
 minusBtn.addEventListener("click", function () {
-  if (display.innerHTML.length < 25) {
-    display.innerHTML = display.innerHTML + minusBtn.value;
-  } else {
-    display.innerHTML = display.innerHTML;
+  if (display.innerHTML) {
+    number1 = Number(display.innerHTML);
+    operator = minusBtn.value;
+    topDisplay.innerHTML = display.innerHTML + " " + operator;
+    display.innerHTML = "";
   }
 });
 divideBtn.addEventListener("click", function () {
-  if (display.innerHTML.length < 25) {
-    display.innerHTML = display.innerHTML + divideBtn.value;
-  } else {
-    display.innerHTML = display.innerHTML;
+  if (display.innerHTML) {
+    number1 = Number(display.innerHTML);
+    operator = divideBtn.value;
+    topDisplay.innerHTML = display.innerHTML + " " + operator;
+    display.innerHTML = "";
   }
 });
 timesBtn.addEventListener("click", function () {
-  if (display.innerHTML.length < 25) {
-    display.innerHTML = display.innerHTML + timesBtn.value;
-  } else {
-    display.innerHTML = display.innerHTML;
+  if (display.innerHTML) {
+    number1 = Number(display.innerHTML);
+    operator = timesBtn.value;
+    topDisplay.innerHTML = display.innerHTML + " " + operator;
+    display.innerHTML = "";
   }
 });
 equalsBtn.addEventListener("click", function () {
   if (number1) {
     number2 = Number(display.innerHTML);
-    total = addNums(number1, number2);
-    display.innerHTML = total;
-    operator = '';
-    return total;
+    if (operator === "+") {
+      total = addNums(number1, number2);
+      display.innerHTML = total;
+      operator = "";
+      return total;
+    } else if (operator === "-") {
+      total = subNums(number1, number2);
+      display.innerHTML = total;
+      operator = "";
+      return total;
+    } else if (operator === "/") {
+      total = divNums(number1, number2);
+      display.innerHTML = total;
+      operator = "";
+      return total;
+    } else if (operator === "x") {
+      total = timesNums(number1, number2);
+      display.innerHTML = total;
+      operator = "";
+      return total;
+    }
   }
 });
 
@@ -90,6 +110,24 @@ equalsBtn.addEventListener("click", function () {
 const addNums = (num1, num2) => {
   let total = 0;
   total = num1 + num2;
+  topDisplay.innerHTML = total;
+  return total;
+};
+const subNums = (num1, num2) => {
+  let total = 0;
+  total = num1 - num2;
+  topDisplay.innerHTML = total;
+  return total;
+};
+const divNums = (num1, num2) => {
+  let total = 0;
+  total = num1 / num2;
+  topDisplay.innerHTML = total;
+  return total;
+};
+const timesNums = (num1, num2) => {
+  let total = 0;
+  total = num1 * num2;
   topDisplay.innerHTML = total;
   return total;
 };
