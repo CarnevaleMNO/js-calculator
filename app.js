@@ -3,131 +3,110 @@ const form = document.querySelector(".calc-form");
 const topDisplay = document.querySelector(".top-display");
 const display = document.querySelector(".display");
 const nums = document.querySelectorAll(".num");
-const clearBtn = document.querySelector(".clear");
-const plusBtn = document.querySelector(".plus");
-const minusBtn = document.querySelector(".minus");
-const divideBtn = document.querySelector(".divide");
-const timesBtn = document.querySelector(".times");
-const equalsBtn = document.querySelector(".equals");
+const ops = document.querySelectorAll(".op");
+const equals = document.querySelector(".equals");
+const clear = document.querySelector(".clear");
+const point = document.querySelector('.point');
+const del = document.querySelector('.del');
 
 //Variables
 display.innerHTML = "";
 topDisplay.innerHTML = "";
 let number1 = 0;
 let number2 = 0;
-let operator;
-let total;
+let operator = "";
+
+//Function Buttons
+clear.addEventListener("click", function () {
+  number1 = 0;
+  number2 = 0;
+  display.innerHTML = "";
+  topDisplay.innerHTML = "";
+  operator = "";
+});
+del.addEventListener('click', function(){
+  display.innerHTML = display.innerHTML.slice(0, -1);
+  
+})
 
 //Form Control
 form.addEventListener("submit", function (eventObject) {
   eventObject.preventDefault();
 });
 
-//Calc Buttons
+//Calculations
+const calculate = (num1, num2, op) => {
+  let result;
+  if (op === "+") {
+    result = num1 + num2;
+    return result;
+  } else if (op === "-") {
+    result = num1 - num2;
+    return result;
+  } else if (op === "/") {
+    result = num1 / num2;
+    return result;
+  } else if (op === "x") {
+    result = num1 * num2;
+    return result;
+  }
+};
+equals.addEventListener("click", function () {
+  let total;
+  number2 = Number(display.innerHTML);
+  total = calculate(number1, number2, operator);
+  topDisplay.innerHTML = total;
+  display.innerHTML = "";
+  operator = "";
+  number1 = 0;
+  number2 = 0;
+});
+
+//Calc Keys
 for (let num of nums) {
   num.addEventListener("click", function () {
-    if (display.innerHTML.length < 25) {
-      display.innerHTML = display.innerHTML + num.value;
-    } else {
-      display.innerHTML = display.innerHTML;
-    }
-    if (total && !operator) {
+    if (!operator && topDisplay.innerHTML) {
       number1 = 0;
       number2 = 0;
-      total = 0;
       topDisplay.innerHTML = "";
-      display.innerHTML = num.value;
+      operator = "";
+      return (display.innerHTML = display.innerHTML + num.value);
+    }
+    display.innerHTML = display.innerHTML + num.value;
+  });
+}
+for (let op of ops) {
+  op.addEventListener("click", function () {
+    if (!topDisplay.innerHTML && !display.innerHTML) {
+      operator = operator;
+      topDisplay.innerHTML = topDisplay.innerHTML;
+    } else if (topDisplay.innerHTML && operator && !display.innerHTML) {
+      operator = operator;
+      topDisplay.innerHTML = topDisplay.innerHTML;
+    } else if (!topDisplay.innerHTML) {
+      operator = op.value;
+      number1 = Number(display.innerHTML);
+      topDisplay.innerHTML = display.innerHTML + ' ' + operator + ' ';
+      display.innerHTML = "";
+    } else if (number1 && operator && display.innerHTML) {
+      let total;
+      number2 = Number(display.innerHTML);
+      total = calculate(number1, number2, operator);
+      operator = op.value;
+      topDisplay.innerHTML = total + ' ' + operator + ' ';
+      number1 = total;
+      number2 = 0;
+      display.innerHTML = "";
+    } else if (topDisplay.innerHTML) {
+      operator = op.value;
+      number1 = Number(topDisplay.innerHTML);
+      topDisplay.innerHTML = topDisplay.innerHTML + ' ' + operator + ' ';
     }
   });
 }
-clearBtn.addEventListener("click", function () {
-  number1 = 0;
-  number2 = 0;
-  total = 0;
-  topDisplay.innerHTML = "";
-  display.innerHTML = "";
-});
-plusBtn.addEventListener("click", function () {
-  if (display.innerHTML) {
-    number1 = Number(display.innerHTML);
-    operator = plusBtn.value;
-    topDisplay.innerHTML = display.innerHTML + " " + operator;
-    display.innerHTML = "";
+point.addEventListener('click', function(){
+  if(!display.innerHTML.includes(point.value)){
+    display.innerHTML = display.innerHTML + point.value;
   }
-});
-minusBtn.addEventListener("click", function () {
-  if (display.innerHTML) {
-    number1 = Number(display.innerHTML);
-    operator = minusBtn.value;
-    topDisplay.innerHTML = display.innerHTML + " " + operator;
-    display.innerHTML = "";
-  }
-});
-divideBtn.addEventListener("click", function () {
-  if (display.innerHTML) {
-    number1 = Number(display.innerHTML);
-    operator = divideBtn.value;
-    topDisplay.innerHTML = display.innerHTML + " " + operator;
-    display.innerHTML = "";
-  }
-});
-timesBtn.addEventListener("click", function () {
-  if (display.innerHTML) {
-    number1 = Number(display.innerHTML);
-    operator = timesBtn.value;
-    topDisplay.innerHTML = display.innerHTML + " " + operator;
-    display.innerHTML = "";
-  }
-});
-equalsBtn.addEventListener("click", function () {
-  if (number1) {
-    number2 = Number(display.innerHTML);
-    if (operator === "+") {
-      total = addNums(number1, number2);
-      display.innerHTML = total;
-      operator = "";
-      return total;
-    } else if (operator === "-") {
-      total = subNums(number1, number2);
-      display.innerHTML = total;
-      operator = "";
-      return total;
-    } else if (operator === "/") {
-      total = divNums(number1, number2);
-      display.innerHTML = total;
-      operator = "";
-      return total;
-    } else if (operator === "x") {
-      total = timesNums(number1, number2);
-      display.innerHTML = total;
-      operator = "";
-      return total;
-    }
-  }
-});
-
-//Calculations
-const addNums = (num1, num2) => {
-  let total = 0;
-  total = num1 + num2;
-  topDisplay.innerHTML = total;
-  return total;
-};
-const subNums = (num1, num2) => {
-  let total = 0;
-  total = num1 - num2;
-  topDisplay.innerHTML = total;
-  return total;
-};
-const divNums = (num1, num2) => {
-  let total = 0;
-  total = num1 / num2;
-  topDisplay.innerHTML = total;
-  return total;
-};
-const timesNums = (num1, num2) => {
-  let total = 0;
-  total = num1 * num2;
-  topDisplay.innerHTML = total;
-  return total;
-};
+  display.innerHTML = display.innerHTML;
+})
