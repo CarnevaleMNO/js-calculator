@@ -78,7 +78,7 @@ equals.addEventListener("click", function () {
 //Calc Keys
 for (let num of nums) {
   num.addEventListener("click", function () {
-    if (display.innerHTML.length < 15) {
+    if (display.innerHTML.length < 11) {
       if (!operator && topDisplay.innerHTML) {
         number1 = 0;
         number2 = 0;
