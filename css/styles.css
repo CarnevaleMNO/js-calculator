@@ -53,7 +53,8 @@ h2 {
     border-radius: 10px;
 }
 
-.calc .op {
+.calc .op,
+.calc .point {
     background-color: #db6816;
 }
 

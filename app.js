@@ -72,6 +72,8 @@ equals.addEventListener("click", function () {
     } else {
       display.innerHTML = "Infinity";
     }
+  } else {
+    return 
   }
 });
 
